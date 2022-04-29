@@ -1,12 +1,18 @@
 #include "ReturnObject.hpp"
 
 int ctr{0};
-class suspend_never{
-    bool await_ready() {return !isSuspended;}
-    void await_suspend(std::coroutine_handle<>){ }
-    void await_resume(){}
-};
 
+class Suspend{
+    private:
+        bool isSuspended_;
+    public:
+        Suspend(const bool isSuspended):isSuspended_{isSuspended}
+        {       }
+    bool await_ready() {return !isSuspended_;}
+    void await_suspend(std::coroutine_handle<>){}
+    void await_resume(){}
+        
+};
 
 ReturnObject DataAccessCoro(){
     std::cout  << ctr++ << ". Hello from DataAccessCoro\n";
